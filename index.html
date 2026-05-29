@@ -4,7 +4,27 @@
   <meta charset="US-ASCII">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>County-Wide Election Dashboard | Hamilton County Election Commission</title>
-  
+  <!-- Global Visual Diagnostics (Discovers console crashes instantly on-screen) -->
+  <script>
+    window.onerror = function(msg, src, line, col, err) {
+      var d = document.createElement('div');
+      d.style.cssText = 'background:#fef2f2; border:2px solid #dc2626; color:#991b1b; padding:20px; margin:20px; font-family:monospace; font-size:14px; border-radius:8px; z-index:9999; position:relative;';
+      d.innerHTML = '<h3>&#x26A0;&#xFE0F; JavaScript Runtime Error:</h3>' +
+                    '<p><strong>Message:</strong> ' + msg + '</p>' +
+                    '<p><strong>Source:</strong> ' + src + ' (Line ' + line + ', Col ' + col + ')</p>' +
+                    (err && err.stack ? '<pre style="white-space:pre-wrap; margin-top:10px; background:#fee2e2; padding:10px; border-radius:4px;">' + err.stack + '</pre>' : '');
+      document.body.insertBefore(d, document.body.firstChild);
+      return false;
+    };
+    window.onunhandledrejection = function(e) {
+      var d = document.createElement('div');
+      d.style.cssText = 'background:#fef2f2; border:2px solid #dc2626; color:#991b1b; padding:20px; margin:20px; font-family:monospace; font-size:14px; border-radius:8px; z-index:9999; position:relative;';
+      d.innerHTML = '<h3>&#x26A0;&#xFE0F; Unhandled Promise Rejection:</h3>' +
+                    '<p><strong>Reason:</strong> ' + e.reason + '</p>';
+      document.body.insertBefore(d, document.body.firstChild);
+    };
+  </script>
+
   <!-- Premium Stylesheets -->
   <link rel="stylesheet" href="assets/style.css">
 </head>
