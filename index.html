@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="US-ASCII">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>County-Wide Election Dashboard | Hamilton County Election Commission</title>
+  
+  <!-- Premium Stylesheets -->
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <!-- Screen Reader Skip Link (WCAG AA) -->
+  <a href="#main-content" class="sr-only">Skip to main content</a>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar" aria-label="Main Navigation">
+    <a href="index.html" class="navbar-logo-container" aria-label="Hamilton County Election Commission Home">
+      <span class="navbar-title">
+        Hamilton County Election Results
+      </span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html" class="nav-link active" aria-current="page">County-Wide Dashboard</a>
+      <a href="precincts.html" class="nav-link">Precinct Breakdown</a>
+      <button type="button" class="theme-toggle" onclick="ElectionApp.toggleTheme()" aria-label="Toggle dark and light themes">
+        &#x1F317;
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content Wrapper -->
+  <main id="main-content" class="app-container">
+    
+    <!-- Hero Banner: Voter Turnout Overview -->
+    <header class="hero-card" aria-labelledby="hero-title">
+      <h1 id="hero-title" class="font-size-title" style="margin-bottom: 8px !important; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;">
+        <span>Official Results</span>
+        <span class="font-size-small text-semibold" style="color: var(--primary) !important; background-color: var(--primary-light); padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px;">May 5, 2026</span>
+      </h1>
+      <p class="font-size-body text-muted" style="margin-bottom: 24px !important;">
+        Official Primary Election Results - Hamilton County Election Commission.
+      </p>
+      
+      <!-- Summary Statistics Grid -->
+      <div class="hero-grid" role="region" aria-label="Key Election Statistics">
+        <div class="stat-item">
+          <span class="stat-label">Registered Voters</span>
+          <span id="stat-voters" class="stat-value">Loading...</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Ballots Cast</span>
+          <span id="stat-ballots" class="stat-value">Loading...</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Overall Turnout</span>
+          <span id="stat-turnout" class="stat-value" style="color: var(--primary) !important;">Loading...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Error Message Panel -->
+    <div id="error-message" class="stat-item" style="display: none; background-color: var(--rep-bg); border-color: var(--rep-color); color: var(--rep-color); margin-bottom: 32px !important; text-align: center; font-weight: 600;"></div>
+
+    <!-- Layout Grid: Left Content (Contests), Right Sidebar (Deadlines) -->
+    <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
+      
+      <!-- Left Main Column (Contests Listing) -->
+      <section style="flex: 3 1 600px;" aria-labelledby="contests-heading">
+        <h2 id="contests-heading" class="sr-only">Contest Results Grid</h2>
+        
+        <!-- Search & Filters Toolbar -->
+        <div class="search-filter-bar" role="search">
+          <div class="search-input-wrapper">
+            <span class="search-icon" aria-hidden="true">&#x1F50D;</span>
+            <input type="text" class="search-input" placeholder="Search contests or candidates..." oninput="ElectionApp.handleSearchInput(event)" aria-label="Search contests or candidates">
+          </div>
+          <div class="filter-group" aria-label="Filter Contests by Party or Category">
+            <button type="button" class="filter-btn active" onclick="ElectionApp.setFilter('ALL')" aria-pressed="true">All</button>
+            <button type="button" class="filter-btn" onclick="ElectionApp.setFilter('REP')" aria-pressed="false">Republican</button>
+            <button type="button" class="filter-btn" onclick="ElectionApp.setFilter('DEM')" aria-pressed="false">Democratic</button>
+            <button type="button" class="filter-btn" onclick="ElectionApp.setFilter('NON')" aria-pressed="false">Non-Partisan</button>
+          </div>
+        </div>
+
+        <!-- Empty Results Message -->
+        <div id="no-contests-message" class="stat-item" style="display: none; text-align: center; padding: 48px !important; background-color: var(--bg-card) !important; border-color: var(--border-color) !important;">
+          <p class="font-size-subtitle text-semibold" style="margin-bottom: 8px !important;">No matching contests found</p>
+          <p class="font-size-small text-muted">Try adjusting your search keywords or active filters.</p>
+        </div>
+
+        <!-- Dynamic Contest Cards Wrapper -->
+        <div id="contest-grid" class="contest-grid">
+          <!-- Populated Dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- Right Sidebar Column (Calendar Widget & Print options) -->
+      <aside style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 24px;" aria-labelledby="sidebar-heading">
+        <h2 id="sidebar-heading" class="sr-only">Election Support & Calendar Actions</h2>
+        
+        <!-- Calendar Dates Add Widget -->
+        <div class="calendar-widget">
+          <h3 class="font-size-subtitle" style="margin-bottom: 16px !important; border-bottom: 1px solid var(--border-color); padding-bottom: 8px !important;">
+            &#x1F4C5; Key Election Dates
+          </h3>
+          
+          <!-- Event 1: Election Day -->
+          <div class="calendar-event">
+            <div class="calendar-date-badge" aria-hidden="true">
+              <span class="calendar-month">May</span>
+              <span class="calendar-day">05</span>
+            </div>
+            <div class="calendar-info">
+              <h4 class="calendar-title">Primary Election Day</h4>
+              <span class="calendar-time">Polls open: 8:00 AM - 8:00 PM</span>
+            </div>
+            <div class="calendar-dropdown-wrapper">
+              <button type="button" id="cal-menu-primary-btn" class="btn btn-outline btn-sm" 
+                      onclick="ElectionApp.toggleCalendarMenu(event, 'cal-menu-primary')" 
+                      aria-expanded="false" aria-haspopup="true" 
+                      aria-label="Add Primary Election Day to calendar">
+                Save &#x2193;
+              </button>
+              <div id="cal-menu-primary" class="calendar-menu" onkeydown="ElectionApp.handleCalendarKey(event, 'cal-menu-primary')">
+                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Primary%20Election%20Day%20-%20Hamilton%20County&dates=20260505T120000Z/20260506T000000Z&details=Hamilton%20County%20Primary%20Election.%20Please%20cast%20your%20ballot!&location=Hamilton%20County,%20TN" 
+                   target="_blank" rel="noopener noreferrer" class="calendar-item" aria-label="Add to Google Calendar (opens in new tab)">
+                  &#x1F4E7; Google Calendar
+                </a>
+                <a href="https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=Primary%20Election%20Day%20-%20Hamilton%20County&startdt=2026-05-05T08:00:00&enddt=2026-05-05T20:00:00&body=Hamilton%20County%20Primary%20Election.%20Please%20cast%20your%20ballot!&location=Hamilton%20County,%20TN" 
+                   target="_blank" rel="noopener noreferrer" class="calendar-item" aria-label="Add to Outlook Calendar (opens in new tab)">
+                  &#x1F4EB; Outlook Web
+                </a>
+                <button type="button" class="calendar-item" 
+                        onclick="ElectionApp.downloadICS('Primary Election Day - Hamilton County', '20260505T120000Z', '20260506T000000Z', 'Hamilton County Primary Election. Please cast your ballot!', 'Hamilton County, TN', 'primary_election_hcec.ics')">
+                  &#x1F4E6; Apple / ICS File
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <!-- Sidebar Master CSV Export Card -->
+        <div class="calendar-widget" style="padding: 20px !important;">
+          <h3 class="font-size-small text-semibold" style="margin-bottom: 8px !important;">
+            &#x1F4BE; Master Results Export
+          </h3>
+          <p class="font-size-tiny text-muted" style="margin-bottom: 16px !important;">
+            Download the complete primary election database containing all contests and precinct splits as a clean CSV record.
+          </p>
+          <button type="button" class="btn btn-sm width-100" style="margin-bottom: 8px !important; background-color: var(--other-color) !important; color: #ffffff !important; border-color: var(--other-color) !important;" onclick="ElectionApp.downloadMasterCSV()" aria-label="Download master results CSV database for all contests">
+            Download Master CSV
+          </button>
+          <button type="button" class="btn btn-sm width-100" style="background-color: var(--primary) !important; color: var(--text-inverse) !important; border-color: var(--primary) !important;" onclick="ElectionApp.downloadMasterCSVWithGroups()" aria-label="Download master results CSV database with counting group splits for all contests">
+            Download Master CSV with Groups
+          </button>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Core Javascript Resources -->
+  <script src="assets/data.js"></script>
+  <script src="assets/parser.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

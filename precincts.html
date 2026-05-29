@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="US-ASCII">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Precinct Results Breakdown | Hamilton County Election Commission</title>
+  
+  <!-- Premium Stylesheets -->
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <!-- Screen Reader Skip Link (WCAG AA) -->
+  <a href="#main-content" class="sr-only">Skip to main content</a>
+
+  <!-- Top Navigation Bar -->
+  <nav class="navbar" aria-label="Main Navigation">
+    <a href="index.html" class="navbar-logo-container" aria-label="Hamilton County Election Commission Home">
+      <span class="navbar-title">
+        Hamilton County Election Results
+      </span>
+    </a>
+    <div class="navbar-nav">
+      <a href="index.html" class="nav-link">County-Wide Dashboard</a>
+      <a href="precincts.html" class="nav-link active" aria-current="page">Precinct Breakdown</a>
+      <button type="button" class="theme-toggle" onclick="ElectionApp.toggleTheme()" aria-label="Toggle dark and light themes">
+        &#x1F317;
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content Wrapper -->
+  <main id="main-content" class="app-container">
+    
+    <!-- Hero Banner Header with Integrated Control Panel -->
+    <header class="hero-card" aria-labelledby="page-title">
+      <h1 id="page-title" class="font-size-title" style="margin-bottom: 8px !important; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;">
+        <span>Official Results - Precinct Breakdown</span>
+        <span class="font-size-small text-semibold" style="color: var(--primary) !important; background-color: var(--primary-light); padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px;">May 5, 2026</span>
+      </h1>
+      <p class="font-size-body text-muted" style="margin-bottom: 24px !important;">
+        Analyze precinct margins, turnout ratios, maps location links, and group distributions for any chosen contest.
+      </p>
+      
+      <!-- Unified Interactive Controls Row -->
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; margin-top: 16px !important;">
+        
+        <!-- Contest Selector Dropdown -->
+        <div style="flex: 2 1 320px !important; display: flex; flex-direction: column; gap: 6px;">
+          <label for="contest-selector" class="font-size-tiny text-semibold text-muted" style="text-transform: uppercase !important; letter-spacing: 0.5px !important;">
+            Select Contest to Analyze:
+          </label>
+          <div class="search-input-wrapper" style="flex: none !important; position: relative !important; margin: 0 !important; width: 100% !important;">
+            <span class="search-icon" aria-hidden="true" style="left: 14px !important;">&#x1F5F3;&#xFE0F;</span>
+            <select id="contest-selector" class="search-input" style="padding-left: 42px !important; appearance: auto !important;" onchange="ElectionApp.handleContestChange(this)">
+              <option value="" disabled selected>Loading contests...</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Quick Precinct Search Input -->
+        <div style="flex: 1 1 220px !important; display: flex; flex-direction: column; gap: 6px;">
+          <label for="precinct-search-input" class="font-size-tiny text-semibold text-muted" style="text-transform: uppercase !important; letter-spacing: 0.5px !important;">
+            Quick Precinct Search:
+          </label>
+          <div class="search-input-wrapper" style="flex: none !important; position: relative !important; margin: 0 !important; width: 100% !important;">
+            <span class="search-icon" aria-hidden="true">&#x1F50D;</span>
+            <input type="text" id="precinct-search-input" class="search-input" style="padding-left: 42px !important;" placeholder="Search Code/Name..." oninput="ElectionApp.handleSearchInput(event)" aria-label="Search precincts by name or code">
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Error Message Panel -->
+    <div id="error-message" class="stat-item" style="display: none; background-color: var(--rep-bg); border-color: var(--rep-color); color: var(--rep-color); margin-bottom: 32px !important; text-align: center; font-weight: 600;"></div>
+
+    <!-- Dynamic Contest Vote Distribution Pie Chart (Playbook Rich Aesthetics) -->
+    <div id="contest-chart-card" class="hero-card" style="display: none; margin-bottom: 32px !important;">
+      <h3 class="font-size-subtitle" style="margin-bottom: 16px !important; border-bottom: 1px solid var(--border-color); padding-bottom: 8px !important; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 12px;">
+        <span>&#x1F4C8; County-Wide Vote Distribution</span>
+        <span id="selected-contest-title" class="font-size-small text-semibold" style="color: var(--primary) !important; background-color: var(--primary-light); padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px;">Select a Contest</span>
+      </h3>
+      <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: center; justify-content: center;">
+        <!-- Pie SVG -->
+        <div style="position: relative; width: 100%; max-width: 300px; aspect-ratio: 1 / 1; flex-shrink: 0;">
+          <svg id="pie-svg" viewBox="0 0 100 100" width="100%" height="100%" aria-label="Vote Distribution Pie Chart"></svg>
+        </div>
+        <!-- Legend Container -->
+        <div id="chart-legend" style="flex: 1 1 250px; display: flex; flex-direction: column; gap: 4px;">
+          <!-- Filled dynamically by app.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Responsive Table Wrapper (Playbook horizontal scroll rule) -->
+    <div class="table-wrapper">
+      <table class="results-table" aria-label="Precinct Results Matrix">
+        <thead>
+          <tr id="table-head-row">
+            <th>Precinct Name</th>
+            <th class="text-right">Registered Voters</th>
+            <th class="text-right">Turnout</th>
+            <!-- Candidate headers loaded dynamically -->
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr>
+            <td colspan="3" class="text-center text-muted" style="padding: 48px !important;">
+              Loading data... Please wait.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Export Action Banner -->
+    <div class="calendar-widget" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 32px !important;">
+      <div style="flex: 1 1 400px !important;">
+        <h3 class="font-size-body text-semibold" style="margin-bottom: 4px !important;">
+          &#x1F4BE; Export Results Data
+        </h3>
+        <p class="font-size-small text-muted">
+          Download structured election records to analyze offline or import into external applications.
+        </p>
+      </div>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap !important;">
+        <button type="button" class="btn" style="background-color: var(--success) !important; color: #ffffff !important; border-color: var(--success) !important;" onclick="ElectionApp.exportToCSV()" aria-label="Download current precinct results matrix as a CSV file">
+          Export Active Contest to CSV
+        </button>
+        <button type="button" class="btn" style="background-color: var(--other-color) !important; color: #ffffff !important; border-color: var(--other-color) !important;" onclick="ElectionApp.downloadMasterCSV()" aria-label="Download complete results database for all contests as a CSV file">
+          Download Master CSV (All Contests)
+        </button>
+        <button type="button" class="btn" style="background-color: var(--primary) !important; color: var(--text-inverse) !important; border-color: var(--primary) !important;" onclick="ElectionApp.downloadMasterCSVWithGroups()" aria-label="Download complete results database with counting group splits for all contests as a CSV file">
+          Download Master CSV with Groups
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Accessible Modal Dialogue: Precinct Group breakdowns (WCAG AA Focus Control) -->
+  <div id="groups-modal" class="modal-overlay" onkeydown="ElectionApp.handleModalKey(event)">
+    <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h3 id="modal-title" class="font-size-subtitle" style="color: var(--primary) !important;">Precinct - Counting Groups</h3>
+        <button type="button" id="modal-close-button" class="modal-close-btn" onclick="ElectionApp.closeGroupsModal()" aria-label="Close modal dialog">
+          &times;
+        </button>
+      </div>
+      
+      <!-- Modal Body Content -->
+      <div id="modal-body-content" class="modal-body">
+        <!-- Filled dynamically by app.js based on groups split -->
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Core Javascript Resources -->
+  <script src="assets/data.js"></script>
+  <script src="assets/parser.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

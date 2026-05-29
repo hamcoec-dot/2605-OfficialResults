@@ -1,0 +1,1057 @@
+/* ==========================================================================
+   Hamilton County Election Commission - Premium Results Stylesheet
+   Created: May 2026
+   Standards: WCAG 2.1 AA, DNN CMS Survivability, Responsive, Print-Optimized
+   ========================================================================== */
+
+/* Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
+
+/* Color System & CSS Variables (HSL Palettes) */
+:root {
+  /* Light Mode Palette */
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-header: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-inverse: #ffffff;
+  --border-color: #e2e8f0;
+  
+  --primary: #1e3a8a;
+  --primary-hover: #1e40af;
+  --primary-light: #eff6ff;
+  --primary-rgb: 30, 58, 138;
+  
+  --rep-color: #dc2626;
+  --rep-bg: #fef2f2;
+  --dem-color: #2563eb;
+  --dem-bg: #eff6ff;
+  --other-color: #d97706;
+  --other-bg: #fffbeb;
+  
+  --success: #15803d;
+  --success-bg: #f0fdf4;
+  
+  --shadow-sm: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0px 4px 6px -1px rgba(0, 0, 0, 0.05), 0px 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.04), 0px 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0px 8px 24px rgba(15, 23, 42, 0.03);
+  
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Mode Palette Overrides */
+body.dark {
+  --bg-page: #0b0f19;
+  --bg-card: #131b2e;
+  --bg-header: #131b2e;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-inverse: #0b0f19;
+  --border-color: #1e293b;
+  
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --primary-light: #1e293b;
+  --primary-rgb: 59, 130, 246;
+  
+  --rep-color: #ef4444;
+  --rep-bg: #2d1e1e;
+  --dem-color: #3b82f6;
+  --dem-bg: #1e263b;
+  --other-color: #fbbf24;
+  --other-bg: #2e251a;
+  
+  --success: #22c55e;
+  --success-bg: #142a1e;
+  
+  --shadow-card: 0px 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Basic Reset & Base Styling */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif !important;
+  background-color: var(--bg-page) !important;
+  color: var(--text-main) !important;
+  line-height: 1.6 !important;
+  font-size: 16px !important;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+  padding-bottom: 60px !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif !important;
+  color: var(--text-main) !important;
+  font-weight: 700 !important;
+}
+
+/* ==========================================================================
+   1. DNN Sledgehammer Typography & Utility Classes
+   ========================================================================== */
+.font-size-hero { font-size: 38px !important; line-height: 48px !important; }
+.font-size-title { font-size: 28px !important; line-height: 36px !important; }
+.font-size-subtitle { font-size: 20px !important; line-height: 28px !important; }
+.font-size-body { font-size: 16px !important; line-height: 24px !important; }
+.font-size-small { font-size: 14px !important; line-height: 20px !important; }
+.font-size-tiny { font-size: 12px !important; line-height: 16px !important; }
+
+.width-100 { width: 100% !important; }
+.text-center { text-align: center !important; }
+.text-right { text-align: right !important; }
+.text-semibold { font-weight: 600 !important; }
+.text-bold { font-weight: 700 !important; }
+
+.nowrap {
+  white-space: nowrap !important;
+}
+
+/* Screen Reader Helpers */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* ==========================================================================
+   2. Master Layout Components
+   ========================================================================== */
+.navbar {
+  background-color: var(--bg-header) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  padding: 16px 24px !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 100 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.navbar-logo-container {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+}
+
+.navbar-title {
+  font-size: 20px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.5px !important;
+  color: var(--text-main) !important;
+}
+
+.navbar-nav {
+  display: flex !important;
+  gap: 16px !important;
+  align-items: center !important;
+}
+
+.nav-link {
+  color: var(--text-muted) !important;
+  text-decoration: none !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  padding: 8px 16px !important;
+  border-radius: var(--radius-sm) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--primary) !important;
+  background-color: var(--primary-light) !important;
+}
+
+.app-container {
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  padding: 32px 24px !important;
+}
+
+/* ==========================================================================
+   3. Theming & Control Buttons
+   ========================================================================== */
+.btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  padding: 10px 20px !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  border: 1px solid transparent !important;
+  transition: all var(--transition-fast) !important;
+  user-select: none !important;
+  min-height: 44px !important; /* WCAG Mobile Touch Target Standard */
+}
+
+.btn-primary {
+  background-color: var(--primary) !important;
+  color: var(--text-inverse) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover) !important;
+  transform: translateY(-1px) !important;
+}
+
+.btn-outline {
+  background-color: transparent !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-main) !important;
+}
+
+.btn-outline:hover {
+  background-color: var(--primary-light) !important;
+  border-color: var(--primary) !important;
+}
+
+.btn-sm {
+  padding: 6px 12px !important;
+  font-size: 13px !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+.theme-toggle {
+  background: none !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-main) !important;
+  padding: 8px !important;
+  border-radius: 50% !important;
+  cursor: pointer !important;
+  width: 44px !important; /* WCAG Mobile Touch Target Standard */
+  height: 44px !important; /* WCAG Mobile Touch Target Standard */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.theme-toggle:hover {
+  background-color: var(--primary-light) !important;
+  border-color: var(--primary) !important;
+}
+
+/* ==========================================================================
+   4. Election Turnout Banner / Hero Card
+   ========================================================================== */
+.hero-card {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: 32px !important;
+  margin-bottom: 32px !important;
+  box-shadow: var(--shadow-card) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.hero-card::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 6px !important;
+  height: 100% !important;
+  background: linear-gradient(180deg, var(--rep-color), var(--dem-color)) !important;
+}
+
+.hero-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+  gap: 24px !important;
+  margin-top: 24px !important;
+}
+
+.stat-item {
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 16px !important;
+  border-radius: var(--radius-md) !important;
+  background-color: var(--bg-page) !important;
+  border: 1px solid var(--border-color) !important;
+  transition: transform var(--transition-fast) !important;
+}
+
+.stat-item:hover {
+  transform: translateY(-2px) !important;
+}
+
+.stat-label {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--text-muted) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  margin-bottom: 6px !important;
+}
+
+.stat-value {
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  color: var(--text-main) !important;
+}
+
+/* ==========================================================================
+   5. Search, Filter, & Options Bar
+   ========================================================================== */
+.search-filter-bar {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+  align-items: center !important;
+  margin-bottom: 24px !important;
+}
+
+.search-input-wrapper {
+  position: relative !important;
+  flex: 1 1 300px !important;
+}
+
+.search-input {
+  width: 100% !important;
+  padding: 12px 16px 12px 42px !important;
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--border-color) !important;
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+  font-size: 15px !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.search-input:focus {
+  outline: none !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1) !important;
+}
+
+body.dark .search-input:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
+}
+
+.search-icon {
+  position: absolute !important;
+  left: 14px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: var(--text-muted) !important;
+  pointer-events: none !important;
+}
+
+.filter-group {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+.filter-btn {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-muted) !important;
+  padding: 10px 16px !important;
+  border-radius: var(--radius-md) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all var(--transition-fast) !important;
+  user-select: none !important;
+  min-height: 44px !important; /* WCAG Mobile Touch Target Standard */
+}
+
+.filter-btn:hover {
+  border-color: var(--primary) !important;
+  color: var(--primary) !important;
+}
+
+.filter-btn.active {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: var(--text-inverse) !important;
+}
+
+/* ==========================================================================
+   6. Contest Cards & Dynamic Visualization (SVG)
+   ========================================================================== */
+.contest-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)) !important;
+  gap: 24px !important;
+}
+
+@media (max-width: 480px) {
+  .contest-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.contest-card {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 24px !important;
+  box-shadow: var(--shadow-card) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  transition: all var(--transition-normal) !important;
+  break-inside: avoid !important; /* Print standard */
+  page-break-inside: avoid !important;
+}
+
+.contest-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: var(--shadow-lg) !important;
+  border-color: var(--primary) !important;
+}
+
+.contest-header {
+  border-bottom: 1px solid var(--border-color) !important;
+  padding-bottom: 12px !important;
+  margin-bottom: 16px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+}
+
+.contest-party-badge {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  letter-spacing: 0.5px !important;
+}
+
+.contest-party-badge.rep {
+  background-color: var(--rep-bg) !important;
+  color: var(--rep-color) !important;
+}
+
+.contest-party-badge.dem {
+  background-color: var(--dem-bg) !important;
+  color: var(--dem-color) !important;
+}
+
+.contest-party-badge.non {
+  background-color: var(--other-bg) !important;
+  color: var(--other-color) !important;
+}
+
+.contest-candidate-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  flex-grow: 1 !important;
+}
+
+.candidate-row {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.candidate-info {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  font-size: 15px !important;
+}
+
+.candidate-name-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.winner-icon {
+  color: var(--success) !important;
+  font-weight: bold !important;
+  display: inline-flex !important;
+}
+
+.candidate-party-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+}
+
+.candidate-party-dot.rep { background-color: var(--rep-color) !important; }
+.candidate-party-dot.dem { background-color: var(--dem-color) !important; }
+.candidate-party-dot.other { background-color: var(--other-color) !important; }
+
+.candidate-stats {
+  text-align: right !important;
+}
+
+.vote-bar-container {
+  height: 8px !important;
+  width: 100% !important;
+  background-color: var(--bg-page) !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+}
+
+.vote-bar-fill {
+  height: 100% !important;
+  border-radius: 4px !important;
+  transition: width 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) !important;
+}
+
+.vote-bar-fill.rep { background-color: var(--rep-color) !important; }
+.vote-bar-fill.dem { background-color: var(--dem-color) !important; }
+.vote-bar-fill.other { background-color: var(--other-color) !important; }
+
+.contest-footer {
+  margin-top: 20px !important;
+  padding-top: 12px !important;
+  border-top: 1px solid var(--border-color) !important;
+  font-size: 13px !important;
+  color: var(--text-muted) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+/* ==========================================================================
+   7. Tables & Precision Data Renders (Precinct Matrix)
+   ========================================================================== */
+.table-wrapper {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-card) !important;
+  overflow-x: auto !important; /* Playbook Table Scroll Rule */
+  margin-bottom: 32px !important;
+}
+
+.results-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  text-align: left !important;
+  font-size: 15px !important;
+}
+
+.results-table th {
+  background-color: var(--primary-light) !important;
+  color: var(--text-main) !important;
+  font-weight: 700 !important;
+  padding: 16px 20px !important;
+  border-bottom: 2px solid var(--border-color) !important;
+  white-space: nowrap !important;
+  user-select: none !important;
+}
+
+.results-table th.sortable {
+  cursor: pointer !important;
+}
+
+.results-table th.sortable:hover {
+  background-color: var(--border-color) !important;
+}
+
+.results-table td {
+  padding: 14px 20px !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--text-main) !important;
+}
+
+.results-table tr:last-child td {
+  border-bottom: none !important;
+}
+
+.results-table tr:hover td {
+  background-color: var(--primary-light) !important;
+}
+
+/* Highlight row for totals */
+.results-table tr.total-row td {
+  background-color: var(--primary-light) !important;
+  font-weight: 700 !important;
+  border-top: 2px double var(--border-color) !important;
+  border-bottom: 2px double var(--border-color) !important;
+}
+
+.map-link {
+  color: var(--primary) !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: text-decoration var(--transition-fast) !important;
+}
+
+.map-link:hover {
+  text-decoration: underline !important;
+}
+
+/* ==========================================================================
+   8. Premium Calendar Widget & Dropdowns
+   ========================================================================== */
+.calendar-widget {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 24px !important;
+  box-shadow: var(--shadow-card) !important;
+  margin-bottom: 32px !important;
+}
+
+.calendar-event {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 16px 0 !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+}
+
+.calendar-event:last-child {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+}
+
+.calendar-date-badge {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 60px !important;
+  height: 60px !important;
+  background-color: var(--primary-light) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--primary) !important;
+  font-weight: 700 !important;
+}
+
+.calendar-month {
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+}
+
+.calendar-day {
+  font-size: 20px !important;
+  line-height: 20px !important;
+  font-weight: 800 !important;
+}
+
+.calendar-info {
+  flex: 1 1 200px !important;
+}
+
+.calendar-title {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  margin-bottom: 4px !important;
+}
+
+.calendar-time {
+  font-size: 13px !important;
+  color: var(--text-muted) !important;
+}
+
+/* Calendar Button Dropdowns (DNN Safe toggle UI) */
+.calendar-dropdown-wrapper {
+  position: relative !important;
+  display: inline-block !important;
+}
+
+.calendar-menu {
+  display: none;
+  position: absolute !important;
+  right: 0 !important;
+  top: 100% !important;
+  margin-top: 8px !important;
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-lg) !important;
+  z-index: 50 !important;
+  width: 200px !important;
+  overflow: hidden !important;
+  animation: slideDown 0.15s ease-out !important;
+}
+
+.calendar-menu.show {
+  display: block !important;
+}
+
+.calendar-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  padding: 12px 16px !important;
+  background: none !important;
+  border: none !important;
+  text-align: left !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  transition: background-color var(--transition-fast) !important;
+}
+
+.calendar-item:hover {
+  background-color: var(--primary-light) !important;
+  color: var(--primary) !important;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   9. Accessible Counting Group Modal (Precinct Modal)
+   ========================================================================== */
+.modal-overlay {
+  display: none;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: rgba(15, 23, 42, 0.6) !important;
+  backdrop-filter: blur(4px) !important;
+  z-index: 1000 !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+}
+
+body.dark .modal-overlay {
+  background-color: rgba(3, 7, 18, 0.8) !important;
+}
+
+.modal-overlay.show {
+  display: flex !important;
+}
+
+.modal-container {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-lg) !important;
+  width: 100% !important;
+  max-width: 600px !important;
+  box-shadow: var(--shadow-lg) !important;
+  overflow: hidden !important;
+  animation: scaleUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.modal-header {
+  padding: 20px 24px !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  background-color: var(--primary-light) !important;
+}
+
+.modal-body {
+  padding: 24px !important;
+  max-height: 70vh !important;
+  overflow-y: auto !important;
+}
+
+.modal-close-btn {
+  background: none !important;
+  border: none !important;
+  color: var(--text-muted) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 24px !important;
+  width: 44px !important; /* WCAG Mobile Touch Target Standard */
+  height: 44px !important; /* WCAG Mobile Touch Target Standard */
+  padding: 0 !important;
+  border-radius: 50% !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.modal-close-btn:hover {
+  background-color: var(--border-color) !important;
+  color: var(--text-main) !important;
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Modal Group Rows */
+.group-result-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 12px 0 !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.group-result-row:last-child {
+  border-bottom: none !important;
+}
+
+.group-name {
+  font-weight: 600 !important;
+  color: var(--text-main) !important;
+  font-size: 15px !important;
+  flex-shrink: 1 !important;
+}
+
+.group-votes {
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  color: var(--primary) !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  margin-left: 12px !important;
+}
+
+/* Pie Wedge Dynamic Interactivity */
+.pie-wedge {
+  transition: transform var(--transition-fast), opacity var(--transition-fast) !important;
+  transform-origin: 50px 50px !important;
+  cursor: pointer !important;
+}
+
+.pie-wedge:hover {
+  transform: scale(1.04) !important;
+  opacity: 0.92 !important;
+}
+
+/* ==========================================================================
+   10. Master Print Stylesheet Overrides
+   ========================================================================== */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    font-size: 14px !important; /* Playbook Newspaper 14px Minimum Rule */
+    -webkit-print-color-adjust: exact !important; /* Playbook Force Backgrounds Rule */
+    print-color-adjust: exact !important;
+  }
+  
+  .navbar, .search-filter-bar, .theme-toggle, .btn, .nav-link, .modal-overlay, .calendar-widget {
+    display: none !important; /* Hide non-essential layout */
+  }
+
+  .app-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Force elements to stack sequentially and avoid page break splitting */
+  .contest-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+
+  .contest-card {
+    border: 1px solid #000000 !important;
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+    transform: none !important;
+    break-inside: avoid !important; /* Playbook No Splits Rule */
+    page-break-inside: avoid !important;
+    margin-bottom: 20px !important;
+  }
+
+  .vote-bar-container {
+    border: 1px solid #000000 !important;
+    background-color: #e2e8f0 !important;
+  }
+
+  /* Force absolute bounding for standard letter pages on tabular pages */
+  .print-bounded-page {
+    height: 9.8in !important; /* Playbook Bounding Box Rule */
+    overflow: hidden !important;
+  }
+
+  /* Clean up tables for print */
+  .table-wrapper {
+    box-shadow: none !important;
+    border: 1px solid #000000 !important;
+    border-radius: 0 !important;
+  }
+
+  .results-table th {
+    border-bottom: 2px solid #000000 !important;
+    background-color: #f1f5f9 !important;
+    color: #000000 !important;
+  }
+
+  .results-table td {
+    border-bottom: 1px solid #000000 !important;
+  }
+
+  .results-table tr.total-row td {
+    border-top: 2px double #000000 !important;
+    border-bottom: 2px double #000000 !important;
+    background-color: #f1f5f9 !important;
+  }
+
+  .map-link {
+    color: #000000 !important;
+    text-decoration: none !important;
+  }
+}
+
+/* ==========================================================================
+   11. Modern Mobile Responsive Table-to-Card Folding System
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Strip outer table wrapper framing on small screens */
+  .table-wrapper {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow-x: visible !important;
+  }
+
+  /* Force table structure elements into modular card components */
+  .results-table, 
+  .results-table thead, 
+  .results-table tbody, 
+  .results-table th, 
+  .results-table td, 
+  .results-table tr {
+    display: block !important;
+  }
+
+  /* Accessible Offscreen Table Header hiding (keeps screen-readers aware) */
+  .results-table thead tr {
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+  }
+
+  /* Transform table rows into standalone visual cards */
+  .results-table tr {
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--radius-md) !important;
+    margin-bottom: 16px !important;
+    background-color: var(--bg-card) !important;
+    padding: 12px 16px !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: all var(--transition-fast) !important;
+  }
+
+  /* Card hover boundary styling */
+  .results-table tr:hover {
+    border-color: var(--primary) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+
+  .results-table tr:hover td {
+    background-color: transparent !important;
+  }
+
+  /* Format cells into structured key-value layout rows */
+  .results-table td {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 0 !important;
+    border-bottom: 1px dashed var(--border-color) !important;
+    text-align: right !important;
+    font-size: 14px !important;
+    width: 100% !important;
+  }
+
+  .results-table td:last-child {
+    border-bottom: none !important;
+  }
+
+  /* Suppress the turnout percentage on mobile viewports so that values align perfectly */
+  .results-table td[data-label="Turnout"] div.font-size-tiny {
+    display: none !important;
+  }
+
+  /* Generate high-contrast, premium text labels on the left of each row */
+  .results-table td::before {
+    content: attr(data-label) !important;
+    font-weight: 600 !important;
+    color: var(--text-muted) !important;
+    text-align: left !important;
+    font-size: 13px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  /* Distinct visual hierarchy for the Precinct Title Header Cell */
+  .results-table td[data-label="Precinct Name"] {
+    justify-content: center !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding-bottom: 12px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .results-table td[data-label="Precinct Name"]::before {
+    display: none !important;
+  }
+
+  .results-table td[data-label="Precinct Name"] button {
+    width: 100% !important;
+    text-align: center !important;
+    min-height: 44px !important;
+    padding: 10px 16px !important;
+  }
+
+  /* Totals summary card representation on mobile */
+  .results-table tr.total-row {
+    border: 2px double var(--primary) !important;
+    background-color: var(--primary-light) !important;
+  }
+
+  .results-table tr.total-row:hover {
+    transform: none !important;
+  }
+
+  .results-table tr.total-row td {
+    border-bottom: 1px dashed rgba(var(--primary-rgb), 0.2) !important;
+  }
+
+  .results-table tr.total-row td:last-child {
+    border-bottom: none !important;
+  }
+
+  .results-table tr.total-row td::before {
+    color: var(--primary) !important;
+  }
+}
+
