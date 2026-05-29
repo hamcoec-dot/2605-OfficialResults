@@ -28,7 +28,12 @@
 
     // 1. Persisted Theme Manager (Light / Dark Mode)
     initTheme: function() {
-      const savedTheme = localStorage.getItem('hcec-theme');
+      let savedTheme = null;
+      try {
+        savedTheme = localStorage.getItem('hcec-theme');
+      } catch (e) {
+        console.warn("Storage access denied. Persistent theme disabled.");
+      }
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       
       if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
@@ -40,7 +45,11 @@
 
     toggleTheme: function() {
       const isDark = document.body.classList.toggle('dark');
-      localStorage.setItem('hcec-theme', isDark ? 'dark' : 'light');
+      try {
+        localStorage.setItem('hcec-theme', isDark ? 'dark' : 'light');
+      } catch (e) {
+        console.warn("Storage write denied. Theme preference not saved.");
+      }
     },
 
     // 2. Data Fetcher & Aggregator
@@ -1297,9 +1306,13 @@
   // Export to global namespace
   global.ElectionApp = ElectionApp;
 
-  // Autostart on DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', function() {
+  // Robust Autostart (checks if DOM is already interactive/complete)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      ElectionApp.init();
+    });
+  } else {
     ElectionApp.init();
-  });
+  }
 
 })(window);
