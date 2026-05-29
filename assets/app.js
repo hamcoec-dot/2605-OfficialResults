@@ -508,7 +508,6 @@
         ? ((dataStore.countySummary.ballots.total / dataStore.countySummary.voters) * 100).toFixed(2) 
         : '0.00';
       
-        const isNoCandidate = contest.isNoCandidateQualified;
         const totalRowLabel = isNoCandidate 
           ? 'County Totals (No Candidate Qualified)' 
           : `County Totals (${reportingCount}/${eligibleCount} Reporting)`;
