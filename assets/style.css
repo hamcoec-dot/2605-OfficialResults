@@ -285,7 +285,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .stat-item {
-  display: flex !important;
+  display: flex;
   flex-direction: column !important;
   padding: 16px !important;
   border-radius: var(--radius-md) !important;
